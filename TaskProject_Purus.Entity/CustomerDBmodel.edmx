@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PurusDigitalModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustomerDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateofBirth" Type="datetime" />
+          <Property Name="TypeofInsurance" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="NumOfYears" Type="int" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="CustomerAge" Type="int" />
+          <Property Name="QuoteID" Type="int" />
+        </EntityType>
+        <EntityType Name="Quotes">
+          <Key>
+            <PropertyRef Name="QuoteID" />
+          </Key>
+          <Property Name="QuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteTtile" Type="nvarchar(max)" />
+          <Property Name="QuoteDescription" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ProviderUserId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomerDetails_Quotes">
+          <End Role="Quotes" Type="Self.Quotes" Multiplicity="0..1" />
+          <End Role="CustomerDetails" Type="Self.CustomerDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quotes">
+              <PropertyRef Name="QuoteID" />
+            </Principal>
+            <Dependent Role="CustomerDetails">
+              <PropertyRef Name="QuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quotes_Quotes">
+          <End Role="Quotes" Type="Self.Quotes" Multiplicity="1" />
+          <End Role="Quotes1" Type="Self.Quotes" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Quotes">
+              <PropertyRef Name="QuoteID" />
+            </Principal>
+            <Dependent Role="Quotes1">
+              <PropertyRef Name="QuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleId">
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PurusDigitalModel1StoreContainer">
+          <EntitySet Name="CustomerDetails" EntityType="Self.CustomerDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quotes" EntityType="Self.Quotes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustomerDetails_Quotes" Association="Self.FK_CustomerDetails_Quotes">
+            <End Role="Quotes" EntitySet="Quotes" />
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quotes_Quotes" Association="Self.FK_Quotes_Quotes">
+            <End Role="Quotes" EntitySet="Quotes" />
+            <End Role="Quotes1" EntitySet="Quotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PurusDigitalModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+          <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderUserId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserProfiles" Relationship="Self.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="webpages_UsersInRoles">
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="*" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Customercontext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" />
+          <AssociationSet Name="webpages_UsersInRoles" Association="Self.webpages_UsersInRoles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <EntitySet Name="Quotes" EntityType="PurusDigitalModel1.Quote" />
+          <AssociationSet Name="FK_Quotes_Quotes" Association="PurusDigitalModel1.FK_Quotes_Quotes">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="Quote1" EntitySet="Quotes" />
+          </AssociationSet>
+          <EntitySet Name="CustomerDetails" EntityType="PurusDigitalModel1.CustomerDetail" />
+          <AssociationSet Name="FK_CustomerDetails_Quotes" Association="PurusDigitalModel1.FK_CustomerDetails_Quotes">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="CustomerDetail" EntitySet="CustomerDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="QuoteID" />
+          </Key>
+          <Property Name="QuoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteTtile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuoteDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerDetails" Relationship="PurusDigitalModel1.FK_CustomerDetails_Quotes" FromRole="Quote" ToRole="CustomerDetail" />
+        </EntityType>
+        <Association Name="FK_Quotes_Quotes">
+          <End Type="PurusDigitalModel1.Quote" Role="Quote" Multiplicity="1" />
+          <End Type="PurusDigitalModel1.Quote" Role="Quote1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="QuoteID" />
+            </Principal>
+            <Dependent Role="Quote1">
+              <PropertyRef Name="QuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustomerDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateofBirth" Type="DateTime" Precision="3" />
+          <Property Name="TypeofInsurance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="NumOfYears" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="CustomerAge" Type="Int32" />
+          <Property Name="QuoteID" Type="Int32" />
+          <NavigationProperty Name="Quote" Relationship="PurusDigitalModel1.FK_CustomerDetails_Quotes" FromRole="CustomerDetail" ToRole="Quote" />
+        </EntityType>
+        <Association Name="FK_CustomerDetails_Quotes">
+          <End Type="PurusDigitalModel1.Quote" Role="Quote" Multiplicity="0..1" />
+          <End Type="PurusDigitalModel1.CustomerDetail" Role="CustomerDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="QuoteID" />
+            </Principal>
+            <Dependent Role="CustomerDetail">
+              <PropertyRef Name="QuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PurusDigitalModel1StoreContainer" CdmEntityContainer="Customercontext">
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="PurusDigitalModel1.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="PurusDigitalModel1.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_OAuthMembership">
+            <EntityTypeMapping TypeName="PurusDigitalModel1.webpages_OAuthMembership">
+              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="PurusDigitalModel1.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="PurusDigitalModel1.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="UserProfile">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Quotes">
+            <EntityTypeMapping TypeName="PurusDigitalModel1.Quote">
+              <MappingFragment StoreEntitySet="Quotes">
+                <ScalarProperty Name="QuoteDescription" ColumnName="QuoteDescription" />
+                <ScalarProperty Name="QuoteTtile" ColumnName="QuoteTtile" />
+                <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerDetails">
+            <EntityTypeMapping TypeName="PurusDigitalModel1.CustomerDetail">
+              <MappingFragment StoreEntitySet="CustomerDetails">
+                <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
+                <ScalarProperty Name="CustomerAge" ColumnName="CustomerAge" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="NumOfYears" ColumnName="NumOfYears" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TypeofInsurance" ColumnName="TypeofInsurance" />
+                <ScalarProperty Name="DateofBirth" ColumnName="DateofBirth" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

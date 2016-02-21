@@ -1,0 +1,26 @@
+﻿<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-btn pull-right " id="menu">
+        @if (Request.IsAuthenticated)
+        {
+            <text>
+                <li style="color:#F5F5F5">  Hello,@User.Identity.Name!</li>
+       
+            @using (Html.BeginForm("LogOff", "CustomerLogin", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+    <li>
+        <a style="color:#F5F5F5" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+    </li>
+            }
+    
+            </text>
+        }
+        else
+        {
+            <li> <a href="/CustomerLogin">Login</a></li>
+            <li>  <a href="/CustomerRegister">Register</a></li>
+
+
+        }
+    </ul>
+</div>

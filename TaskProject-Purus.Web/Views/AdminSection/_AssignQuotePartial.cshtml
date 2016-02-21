@@ -1,0 +1,36 @@
+﻿<div id="dialog-modal" title="Create & Assign Quote" style="display:none">
+    <form id="createQuote">
+        <div class="col-md-12 portfolio-item">
+            <span id="result"></span>
+            <input type="hidden" value="" name="CustomerId" id="currentCustomerId">
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <input type="text" class="form-control" name="title" placeholder="Title" required>
+            </div>
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea type="text" cols="40" rows="5" class="form-control" name="description" placeholder="Description" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Assign</button>
+
+        </div>
+    </form>
+</div>
+<script>
+    $("#createQuote").submit(function (e) {
+        var postData = $(this).serializeArray();
+        $.ajax(
+        {
+            url: "AdminSection/updateStatus",
+            type: "POST",
+            data: postData,
+            success: function (data) {
+                $("#dialog-modal").dialog("close");
+            },
+            error: function (jqXHR, textStatus, errorThrown, data) {
+                $('#result').html(jqXHR)
+            }
+        });
+        e.preventDefault();
+    });
+</script>

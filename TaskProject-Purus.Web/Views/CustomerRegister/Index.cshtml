@@ -1,0 +1,73 @@
+﻿@model TaskProject_Purus.Web.Models.CustomerRegisterModel
+@{
+    ViewBag.Title = "Home Page";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="col-md-6 portfolio-item">
+        <h1 class="page-header">
+            Create a new account
+        </h1>
+
+        <div class="form-group">
+            <label for="TypeofInsurance">Type of Insurance</label>
+            <select class="form-control" name="TypeofInsurance" id="redirect">
+                <option selected value="">Please select&hellip;</option>
+                <option value="Annual travel insurance">Annual travel insurance</option>
+                <option value="Breakdown cover">Breakdown cover</option>
+                <option value="Car insurance (inc Aviva Drive)">Car insurance (inc Aviva Drive)</option>
+                <option value="Company van insurance">Company van insurance</option>
+                <option value="Health insurance">Health insurance</option>
+                <option value="Home insurance">Home insurance</option>
+                <option value="Life insurance">Life insurance</option>
+                <option value="Critical illness">Critical illness</option>
+                <option value="Life insurance and Critical illness">Life insurance and Critical illness</option>
+                <option value="Pet insurance">Pet insurance</option>
+                <option value="Private van insurance">Private van insurance</option>
+                <option value="Single trip travel insurance">Single trip travel insurance</option>
+                <option value="Soletrader van insurance">Soletrader van insurance</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Amount">Cover Amount Range</label>
+            <input type="number" class="form-control" name="Amount" placeholder="Enter amount" required>
+        </div>
+        <div class="form-group">
+            <label for="NumOfYears">Number of Years of Insurance</label>
+            <input type="number" class="form-control" name="NumOfYears" placeholder="Enter years" required>
+        </div>
+        <div class="form-group">
+            <label for="DOB">Date of Birth:</label>
+            @Html.DropDownList("Birthday", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }))
+            @Html.DropDownList("Birthmonth", Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i) }))
+            @Html.DropDownList("Birthyear", Enumerable.Range(1950, 50).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }))
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" name="location" maxlength="50" placeholder="Enter location" required>
+        </div>
+        <div class="form-group">
+            <label for="FristName">First name</label>
+            <input type="text" class="form-control" name="FristName" maxlength="50" placeholder="Enter Firstname" required>
+        </div>
+        <div class="form-group">
+            <label for="LastName">Last name</label>
+            <input type="text" class="form-control" name="LastName" maxlength="50" placeholder="Enter Lastname" required>
+        </div>
+        @if(!Request.IsAuthenticated)
+        { 
+        <div class="form-group">
+            <label for="Email">Email address</label>
+            <input type="email" class="form-control" name="Email" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Create password" required>
+        </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}

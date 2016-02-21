@@ -1,0 +1,118 @@
+﻿@model  TaskProject_Purus.Web.Models.SearchCustomerViewModel
+@using TaskProject_Purus.Core.Extensions;
+@using TaskProject_Purus.Core.Constants;
+
+
+
+<form class="form-inline searchForm" method="post" action="~/AdminSection">
+    <h3 class="page-header">Search customer requests:</h3>
+    <div class="row">
+
+        <div class="form-group col-xs-6">
+            <div class="form-group">
+                <label for="Age">Customer age:</label>
+                <div class="form-group">
+                    <select class="form-control" name="AgeEquality">
+                        <option @Model.AgeEquality.IsSelected("=") value="=">Equals to</option>
+                        <option @Model.AgeEquality.IsSelected(">=") value=">=">Greater than or equals to</option>
+                        <option @Model.AgeEquality.IsSelected("<=") value="<=">Less than or equals to</option>
+                        <option @Model.AgeEquality.IsSelected(">") value=">">Greater than</option>
+                        <option @Model.AgeEquality.IsSelected("<") value="<">Less than</option>
+                    </select>
+                    <input type="number" class="form-control " id="age" placeholder="Customer age" value="@Model.Age" name="Age">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Amount">Amont Range:</label>
+                <div class="form-group">
+                    <select class="form-control" name="AmountEuality">
+                        <option @Model.AmountEuality.IsSelected("=") value="=">Equals to</option>
+                        <option @Model.AmountEuality.IsSelected(">=") value=">=">Greater than or equals to</option>
+                        <option @Model.AmountEuality.IsSelected("<=") value="<=">Less than or equals to</option>
+                        <option @Model.AmountEuality.IsSelected(">") value=">">Greater than</option>
+                        <option @Model.AmountEuality.IsSelected("<") value="<">Less than</option>
+                    </select>
+                    <input type="number" class="form-control" placeholder="Amount Range" min="" value="@Model.Amount" name="Amount">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="NumOfYears">No. of years  :</label>
+                <div class="form-group">
+                    <select class="form-control" name="YearsEuality">
+                        <option @Model.YearsEuality.IsSelected("=") value="=">Equals to</option>
+                        <option @Model.YearsEuality.IsSelected(">=") value=">=">Greater than or equals to</option>
+                        <option @Model.YearsEuality.IsSelected("<=") value="<=">Less than or equals to</option>
+                        <option @Model.YearsEuality.IsSelected(">") value=">">Greater than</option>
+                        <option @Model.YearsEuality.IsSelected("<") value="<">Less than</option>
+                    </select>
+                    <input type="number" class="form-control" placeholder="No. of Years" value="@Model.NumOfYears" name="NumOfYears">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TypeofInsurance">Insurance type:</label>
+                <select class="form-control" name="TypeofInsurance">
+                    <option @Model.TypeofInsurance.IsSelected(string.Empty) value="">Please select&hellip;</option>
+                    <option @Model.TypeofInsurance.IsSelected("Annual travel insurance") value="@TypeOfInsurance.Annualtravelinsurance">@TypeOfInsurance.Annualtravelinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Breakdown cover") value="@TypeOfInsurance.Breakdowncover">@TypeOfInsurance.Breakdowncover</option>
+                    <option @Model.TypeofInsurance.IsSelected("Car insurance (inc Aviva Drive)") value="@TypeOfInsurance.Carinsurance">@TypeOfInsurance.Carinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Company van insurance") value="@TypeOfInsurance.Companyvaninsurance">@TypeOfInsurance.Companyvaninsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("@TypeOfInsurance.Healthinsurance") value="@TypeOfInsurance.Healthinsurance">@TypeOfInsurance.Healthinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Home insurance") value="@TypeOfInsurance.Homeinsurance">@TypeOfInsurance.Homeinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Life insurance") value="@TypeOfInsurance.Lifeinsurance">@TypeOfInsurance.Lifeinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Critical illness") value="@TypeOfInsurance.Criticalillness">@TypeOfInsurance.Criticalillness</option>
+                    <option @Model.TypeofInsurance.IsSelected("Life insurance and Critical illness") value="@TypeOfInsurance.LifeinsuranceandCriticalillness">@TypeOfInsurance.LifeinsuranceandCriticalillness</option>
+                    <option @Model.TypeofInsurance.IsSelected("Pet insurance") value=">@TypeOfInsurance.Petinsurance">@TypeOfInsurance.Petinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Private van insurance") value="@TypeOfInsurance.Privatevaninsurance">@TypeOfInsurance.Privatevaninsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Single trip travel insurance") value="@TypeOfInsurance.Singletriptravelinsurance">@TypeOfInsurance.Singletriptravelinsurance</option>
+                    <option @Model.TypeofInsurance.IsSelected("Soletrader van insurance") value="@TypeOfInsurance.Soletradervaninsurance">@TypeOfInsurance.Soletradervaninsurance</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-xs-6">
+            <div class="form-group">
+                <label for="FirstName">Customer Firstname:</label>
+                <input type="text" class="form-control" id="firstname" placeholder="Firstname" value="@Model.FirstName" name="FirstName">
+            </div>
+            <div class="form-group">
+                <label for="LastName">Customer Lastname:</label>
+                <input type="text" class="form-control" id="lastnanme" placeholder="Lastname" value="@Model.LastName" name="LastName">
+            </div>
+            <div class="form-group">
+                <label for="location">Customer Location  :</label>
+                <input type="text" class="form-control" id="location" placeholder="Location" value="@Model.location" name="location">
+            </div>
+            <div class="form-group">
+                <label for="status">Request Status:</label>
+                <div class="form-group">
+                    <select class="form-control" name="Status">
+                        <option @Model.Status.IsSelected() value="false">Pending..</option>
+                        <option @Model.Status.IsSelected() value="true">Completed</option>
+                    </select>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" id="txtsearch" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
+        </div>
+    </div>
+
+
+</form>
+@Html.Partial("_SearchResultsPartial")
+<script type="text/javascript">
+    $(function () {
+
+        $("#location").autocomplete({
+            source: '@Url.Action("GetLoaction")'
+        });
+        $("#firstname").autocomplete({
+            source: '@Url.Action("GetFirstnames")'
+        });
+
+        $("#lastnanme").autocomplete({
+            source: '@Url.Action("GetLastnames")'
+        });
+    });
+</script>

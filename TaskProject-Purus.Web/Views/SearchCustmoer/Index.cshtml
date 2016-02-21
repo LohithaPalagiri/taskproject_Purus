@@ -1,0 +1,76 @@
+﻿@model IEnumerable<TaskProject_Purus.Entity.CustomerDetail>
+@using GridMvc.Html;
+
+    @{
+    ViewBag.Title = "Index";
+    }
+<link href="~/Content/css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.8.3.js"></script>
+<script src="~/Scripts/jquery-ui-1.9.2.custom.min.js"></script>
+
+<form class="form-inline" method="post" action="~/SearchCustmoer">
+    <div class="form-group ">
+        <input type="text" class="form-control" id="age" placeholder="Customer age" name="Age">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control"  id="location" placeholder="Location" name="location">
+    </div>
+    <div class="form-group ">
+        <input type="text" class="form-control" placeholder="No. of Years" name="NumOfYears">
+    </div>
+    <div class="form-group ">
+        <input type="text" class="form-control" placeholder="Amount Range" name="Amount">
+    </div>
+    <div class="form-group">
+        <select class="form-control" name="TypeofInsurance">
+            <option selected value="">Please select&hellip;</option>
+            <option value="Annual travel insurance">Annual travel insurance</option>
+            <option value="Breakdown cover">Breakdown cover</option>
+            <option value="Car insurance (inc Aviva Drive)">Car insurance (inc Aviva Drive)</option>
+            <option value="Company van insurance">Company van insurance</option>
+            <option value="Health insurance">Health insurance</option>
+            <option value="Home insurance">Home insurance</option>
+            <option value="Life insurance">Life insurance</option>
+            <option value="Critical illness">Critical illness</option>
+            <option value="Life insurance and Critical illness">Life insurance and Critical illness</option>
+            <option value="Pet insurance">Pet insurance</option>
+            <option value="Private van insurance">Private van insurance</option>
+            <option value="Single trip travel insurance">Single trip travel insurance</option>
+            <option value="Soletrader van insurance">Soletrader van insurance</option>
+        </select>
+    </div>
+    <br>
+    <br>
+    <div class="text-center">
+        <button type="submit" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
+    </div>
+</form>
+
+   <div class="col-md-12 portfolio-item">
+    <h3 class="page-header">Insurance Quote Details</h3>
+    @Html.Grid(Model).Columns(columns =>
+                    {
+                        columns.Add(c => c.Firstname).Titled("Firstname");
+                        columns.Add(c => c.Lastname).Titled("Lastname");
+                        columns.Add(c => c.Location).Titled("Loaction");
+                        columns.Add(c => c.CustomerAge).Titled("Age");
+                        columns.Add(c => c.TypeofInsurance).Titled("Type of Insurance");
+                        columns.Add(c => c.Amount).Titled("Amount");
+                        columns.Add(c => c.NumOfYears).Titled("Total years");
+                        columns.Add(c => c.Status).Titled("Status").Encoded(false).Sanitized(false).SetWidth(30)
+                        .RenderValueAs(c => @<button class="btn btn-default modal-opener">@c.Status</button>);
+                    }).WithPaging(10).Sortable(true)
+
+
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#age").autocomplete({
+            source:'@Url.Action("GetAge")'
+        });
+        $("#location").autocomplete({
+            source: '@Url.Action("GetLoaction")'
+        });
+
+    });
+</script>

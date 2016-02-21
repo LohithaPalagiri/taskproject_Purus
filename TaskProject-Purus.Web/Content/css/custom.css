@@ -1,0 +1,10 @@
+﻿.searchForm {
+    background-color: #eee;
+    padding-left: 2%;
+    padding-bottom: 5%;
+    padding-top: 0.25%;
+}
+
+.form-inline .form-group {
+    margin-bottom: 1% !important;
+}
